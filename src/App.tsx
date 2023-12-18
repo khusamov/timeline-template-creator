@@ -1,33 +1,39 @@
 import './App.scss'
-import {PageSizes, PDFDocument, rgb} from 'pdf-lib'
 import {saveAs} from 'file-saver'
+import {useState} from 'react'
+import useAsyncEffect from 'use-async-effect'
+import {PdfViewer} from './components/PdfViewer.tsx'
+import {createSamplePdf} from './functions/createSamplePdf.ts'
 
-const pdfDoc = await PDFDocument.create()
-const page = pdfDoc.addPage(PageSizes.A4.reverse() as [number, number])
-
-const {width, height} = page.getSize()
-
-page.drawLine({
-   start: {x: 0, y: height / 2},
-   end: {x: width, y: height / 2},
-   thickness: 2,
-   color: rgb(0, 0, 0),
-   opacity: 1,
-})
-
-const pdfBytes = await pdfDoc.save()
+const pdfFilename = 'Типа это PDF.pdf'
 
 export const App = () => {
-   const onDownloadButtonClick = () => {
-      saveAs(
-         new Blob([pdfBytes]),
-         'Типа это PDF.pdf'
-      )
-   }
-   return (
-      <div>
-         <div>Timeline template creator</div>
-         <button onClick={onDownloadButtonClick}>Скачать PDF</button>
-      </div>
-   )
+	const [document, setDocument] = useState<Uint8Array | null>(null)
+
+	useAsyncEffect<null>(async isMounted => {
+		const pdfBytes = await createSamplePdf()
+		if (!isMounted()) {
+			return null
+		}
+		setDocument(pdfBytes)
+		return null
+	})
+
+	const onDownloadButtonClick = () => {
+		if (document) {
+			saveAs(new Blob([document]), pdfFilename)
+		}
+	}
+
+	return (
+		<div>
+			<div>Timeline template creator</div>
+			<div>
+				<button disabled={document === null} onClick={onDownloadButtonClick}>
+					Скачать PDF
+				</button>
+			</div>
+			{document && <PdfViewer bytes={document}></PdfViewer>}
+		</div>
+	)
 }
