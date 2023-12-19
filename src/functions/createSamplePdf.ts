@@ -12,7 +12,7 @@ export async function createSamplePdf({timelineTop = 50}: ICreateSamplePdfParams
 	const pdfDoc = await PDFDocument.create()
 	const page = pdfDoc.addPage(landscape(PageSizes.A4))
 	const {width, height} = page.getSize()
-	const offsetRatioY = timelineTop / 100
+	const offsetRatioY = (100 - timelineTop) / 100
 	page.drawLine({
 		start: {x: 0, y: height * offsetRatioY},
 		end: {x: width, y: height * offsetRatioY},
