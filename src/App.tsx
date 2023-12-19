@@ -1,7 +1,6 @@
 import './App.scss'
 import {saveAs} from 'file-saver'
-import {ChangeEvent, useState} from 'react'
-import useAsyncEffect from 'use-async-effect'
+import {ChangeEvent, useEffect, useState} from 'react'
 import {PdfViewer} from './components/PdfViewer.tsx'
 import {createSamplePdf} from './functions/createSamplePdf.ts'
 
@@ -11,14 +10,23 @@ export const App = () => {
 	const [document, setDocument] = useState<Uint8Array | null>(null)
 	const [timelineTop, setTimelineTop] = useState<number>(50)
 
-	useAsyncEffect<null>(async isMounted => {
-		const pdfBytes = await createSamplePdf({timelineTop})
-		if (!isMounted()) {
-			return null
-		}
-		setDocument(pdfBytes)
-		return null
-	}, () => {}, [timelineTop])
+	useEffect(
+		() => {
+			let isCanceled = false
+			async function createPdf() {
+				const pdfBytes = await createSamplePdf({timelineTop})
+				if (isCanceled) {
+					return
+				}
+				setDocument(pdfBytes)
+			}
+			createPdf()
+			return () => {
+				isCanceled = true
+			}
+		},
+		[timelineTop]
+	)
 
 	const onDownloadButtonClick = () => {
 		if (document) {
