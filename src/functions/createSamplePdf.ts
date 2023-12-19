@@ -1,8 +1,9 @@
 import {PageSizes, PDFDocument, rgb} from 'pdf-lib'
+import {landscape} from './landscape.ts'
 
 export async function createSamplePdf() {
 	const pdfDoc = await PDFDocument.create()
-	const page = pdfDoc.addPage(PageSizes.A4.reverse() as [number, number])
+	const page = pdfDoc.addPage(landscape(PageSizes.A4))
 	const {width, height} = page.getSize()
 	page.drawLine({
 		start: {x: 0, y: height / 2},

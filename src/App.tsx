@@ -33,7 +33,9 @@ export const App = () => {
 					Скачать PDF
 				</button>
 			</div>
-			{document && <PdfViewer bytes={document}></PdfViewer>}
+			{
+				document && <PdfViewer bytes={document}/>
+			}
 		</div>
 	)
 }
