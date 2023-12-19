@@ -12,7 +12,13 @@ export function usePdfDocument(setPdfPage: TSetPdfPageFunction, bytes: Uint8Arra
 
 			async function loadPage() {
 				if (isCanceled) return
-				loadingTask = getDocument(bytes)
+				loadingTask = (
+					getDocument(
+						// Функция удаляет байты из исходного массива. Поэтому делаем
+						// копию массива при помощи Uint8Array.from().
+						Uint8Array.from(bytes)
+					)
+				)
 				try {
 					const pdf = await loadingTask.promise
 					if (isCanceled) return
