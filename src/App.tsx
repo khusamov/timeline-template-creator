@@ -17,7 +17,7 @@ export const App = () => {
 		}
 		setDocument(pdfBytes)
 		return null
-	})
+	}, () => {}, [])
 
 	const onDownloadButtonClick = () => {
 		if (document) {
