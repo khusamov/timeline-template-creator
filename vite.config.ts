@@ -5,7 +5,21 @@ import topLevelAwait from 'vite-plugin-top-level-await'
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		react(),
+		react({
+			babel: {
+				plugins: [
+					[
+						// Добавлена поддержка TypeScript-декораторов.
+						// https://babeljs.io/docs/babel-plugin-proposal-decorators
+						// https://stackoverflow.com/questions/66395054/how-do-i-enable-babel-plugin-proposal-decorators-with-vite
+						'@babel/plugin-proposal-decorators',
+						{
+							version: '2022-03'
+						}
+					]
+				]
+			}
+		}),
 		topLevelAwait({
 			// Top-level await is not available in the configured target environment ("chrome87", "edge88", "es2020", "firefox78", "safari14" + 2 overrides)
 			// The export name of top-level await promise for each chunk module
