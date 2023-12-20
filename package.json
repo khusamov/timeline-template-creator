@@ -1,5 +1,6 @@
 {
   "name": "timeline-template-creator",
+  "description": "Генератор шаблонов линий времени",
   "private": true,
   "version": "0.0.0",
   "type": "module",
