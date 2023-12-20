@@ -3,7 +3,7 @@ import {RenderTask} from 'pdfjs-dist/types/src/display/api'
 import {RefObject, useEffect} from 'react'
 import {useCanvas2DContext} from '../hooks/useCanvas2DContext.ts'
 
-const scale = 0.6
+const scale = 1.2
 
 export function usePdfViewer(canvasRef: RefObject<HTMLCanvasElement>, pdfPage: PDFPageProxy | null) {
 	useEffect(
