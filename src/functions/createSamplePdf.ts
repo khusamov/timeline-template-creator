@@ -6,9 +6,24 @@ interface ICreateSamplePdfParams {
 	 * Расстояние от верхнего края листа до линии времени в процентах.
 	 */
 	timelineTop?: number
+
+	yearStart?: number
+	yearEnd?: number
+	yearStep?: number
 }
 
-export async function createSamplePdf({timelineTop = 50}: ICreateSamplePdfParams = {}) {
+export async function createSamplePdf(params: ICreateSamplePdfParams = {}) {
+	const {
+		timelineTop = 50,
+		yearStart = 1500,
+		yearEnd = 1700,
+		yearStep = 20
+	} = params
+
+	if (yearStep <= 0) {
+		throw new Error('Шаг сетки не может быть нуль или меньше нуля')
+	}
+
 	const pdfDoc = await PDFDocument.create()
 	const defaultFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
 	const page = pdfDoc.addPage(landscape(PageSizes.A4))
@@ -24,10 +39,6 @@ export async function createSamplePdf({timelineTop = 50}: ICreateSamplePdfParams
 	const contentHeight = height
 
 	const offsetRatioY = (100 - timelineTop) / 100
-
-	const yearStart = 1500
-	const yearEnd = 1700
-	const yearStep = 20
 
 	const lineLength = 10
 	const scaleX = contentWidth / (yearEnd - yearStart)
