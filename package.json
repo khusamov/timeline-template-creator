@@ -2,7 +2,7 @@
   "name": "timeline-template-creator",
   "description": "Генератор шаблонов линий времени",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "packageManager": "yarn@4.0.2",
   "scripts": {
