@@ -88,6 +88,9 @@ export const App = () => {
 				<div>{description}</div>
 				<div>Версия: {version}</div>
 				<div>Дата сборки: {BUILD_DATE}</div>
+				<div>
+					Программа сделана на основе статьи <a target='_blank' href='https://dzen.ru/a/ZAT5rR2Spw2jNRfe'>Линия времени (таймлайн) на уроках истории</a>.
+				</div>
 			</div>
 			<div className={style.block}>
 				<div>Расстояние от верхнего края листа до линии времени в процентах</div>
