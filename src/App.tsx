@@ -13,14 +13,14 @@ export const App = () => {
 	useEffect(
 		() => {
 			let isCanceled = false
-			async function createPdf() {
-				const pdfBytes = await createSamplePdf({timelineTop})
-				if (isCanceled) {
-					return
+			createSamplePdf({timelineTop, yearStart, yearEnd, yearStep}).then(
+				pdfBytes => {
+					if (isCanceled) {
+						return
+					}
+					setDocument(pdfBytes)
 				}
-				setDocument(pdfBytes)
-			}
-			createPdf()
+			)
 			return () => {
 				isCanceled = true
 			}
